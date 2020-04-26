@@ -664,7 +664,7 @@ function moodle(pass, data) {
         if (data.Config == undefined)
             data.Config = {};
 
-        hideCourses(data.moodleCoursesTable, data.Config.hiddeModdelHelp);
+        hideCourses(data.moodleCoursesTable, data.moodleCoursesTable2,  data.Config.hiddeModdelHelp);
 
         if (!data["mo"] || !data.enable)
             return;
@@ -722,7 +722,7 @@ function moodle(pass, data) {
         if (data.testsDate != undefined && data.Config.showTestDay != false) {
 
             //var to save all courses in "mycourses"
-            var mycourses = Object.keys(data.moodleCoursesTable);
+            var mycourses = Object.keys(data.moodleCoursesTable) +  Object.keys(data.moodleCoursesTable2);
             //var to save the current course
             var courseTest;
             //save the course test in html format

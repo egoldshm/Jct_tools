@@ -224,11 +224,13 @@ function setTabla(data)
 	var mazakcourse = data["mazakCourses"]["byname"];
 	var item;
 	var style="";
+	//for my courses
 	for (var i = 0; i < keys.length; i++) {
 
 		 if(i%2 == 0)
+		 {
 			$('#coursesTable').find('tbody:last').append('<tr>');
-
+		}
 		var input;
 		if(data.moodleCoursesTable != undefined && data.moodleCoursesTable[keys[i]] != null)
 			input = '<input type="checkbox" course-id="'+course[keys[i]].moodleId+'" checked  />'
@@ -246,13 +248,54 @@ function setTabla(data)
 
 		item ='<td style='+style+'>' + input+'</td><td style='+style+'>' +course[keys[i]].name+'</td>';
 
+
 		$('#coursesTable').find('tbody:last').append(item);
+
+
 	}
+
+	//בשביל הקורסים שאני בודק
+	for (var i = 0; i < keys.length; i++) {
+
+		if(i%2 == 0)
+		{
+		   $('#coursesTable2').find('tbody:last').append('<tr>');
+
+	   }
+	   var input;
+	   if(data.moodleCoursesTable2 != undefined && data.moodleCoursesTable2[keys[i]] != null)
+		   input = '<input type="checkbox" course-id="'+course[keys[i]].moodleId+'" checked  />'
+	   else
+		   input = '<input type="checkbox" course-id="'+course[keys[i]].moodleId+'"   />'
+	   // how can I add the <tr> tag? This is an hack
+
+	   if(mazakcourse[course[keys[i]].name] != undefined)
+	   {
+		   style="background-color:#ffb;";
+		   delete mazakcourse[course[keys[i]].name];
+
+	   }else
+		   style="";
+
+	   item ='<td style='+style+'>' + input+'</td><td style='+style+'>' +course[keys[i]].name+'</td>';
+
+
+	   $('#coursesTable2').find('tbody:last').append(item);
+
+   }
 
 	$('#coursesTable').find("input[type='checkbox']").each(function()
 	{
 		$(this).change(function(){
-			updatedata(this.checked,$(this).attr("course-id"));
+			updatedata(this.checked, 1, $(this).attr("course-id"));
+			chrome.runtime.sendMessage({setBadge:true});
+		});
+	});
+
+	$('#coursesTable2').find("input[type='checkbox']").each(function()
+	{
+		$(this).change(function(){
+			updatedata(this.checked, 2, $(this).attr("course-id"));
 			chrome.runtime.sendMessage({setBadge:true});
 		});
 	});
@@ -297,12 +340,15 @@ function refreshData()
 
 }
 
-function updatedata(hide,id)
+function updatedata(hide, num, id)
 {
+	var obj = "moodleCoursesTable";
+	if(num == 2)
+		obj = "moodleCoursesTable2"
 	if(hide)
-		DataAccess.setObject("moodleCoursesTable",id);
+		DataAccess.setObject(obj,id);
 	else
-		DataAccess.remove("moodleCoursesTable",id);
+		DataAccess.remove(obj,id);
 }
 
 function setNotificationsData(data)

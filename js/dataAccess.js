@@ -197,7 +197,8 @@ var DataAccess = {
                 hiddeUE:false,hwChanges:true,hwDays:"30",hwUpdate:"1",style:"new",todaysHW:true,updateOnPopup:true
             },
             mo:true,mz:true,wf:true,
-            moodleCoursesTable:{}
+            moodleCoursesTable:{},
+            moodleCoursesTable2: {}
     	 });
     },
 

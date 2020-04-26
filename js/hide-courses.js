@@ -7,18 +7,27 @@
 //======================================================
 
 var coursesList;
-function hideCourses(data,hiddeModdelHelp){
+var coursesList2;
+
+function hideCourses(data, data2, hiddeModdelHelp){
 
 	console.log("JCT Tools->" + "hideCourses");
 
 	//check if this web page is the main page
 	if($("#frontpage-course-list").length == 0)
 		return;
-
+	
+	
 	if($(".hide_button").length>0)
 		console.log("jct moodle ++");
 
 	coursesList = Object.keys(data);
+	coursesList2 = Object.keys(data2);
+
+
+	console.log(coursesList);
+	console.log(coursesList2);
+
 
 	addButtons(hiddeModdelHelp);
 
@@ -32,14 +41,33 @@ function hideCourses(data,hiddeModdelHelp){
 	else
 		openMyCourses();
 
+	var hash = location.hash;
+	if(hash == "#all")
+	{
+		openAllCourses();
+	}
+	else if(hash == "#my")
+	{
+		openMyCourses();
+	}
+	else if(hash == "#tar")
+	{
+		openTargilimCourses();
+	}
 	//when the button is click , open the page "all courses"
 	$("#allCourses").click(function() {
 		openAllCourses();
 	});
 
+
+
 	//when the button is click , open the page "current courses"
 	$("#currentCourses").click(function() {
 		openMyCourses();
+	});
+
+	$("#targilimCourses").click(function() {
+		openTargilimCourses();
 	});
 
 };
@@ -49,7 +77,7 @@ function hideCourses(data,hiddeModdelHelp){
 function addButtons(hiddeModdelHelp) {
 
 	
-	var buttons = '<div><button style="width:49%;height:50px" id="currentCourses" disabled>קורסים שלי</button><button id="allCourses" style="width:49%;height:50px" >כל הקורסים</button></div>';
+	var buttons = '<div><button style="width:49%;height:50px" id="currentCourses" disabled>קורסים שלי</button><button id="allCourses" style="width:49%;height:50px" >כל הקורסים</button><button id="targilimCourses" style="width:49%;height:50px" >בדיקת תרגילים</button></div>';
 	//remove the title "My Courses" and add a custom one
 	$("#frontpage-course-list").children("h2").hide();
 	$("#frontpage-course-list").prepend(buttons);
@@ -82,6 +110,8 @@ function openAllCourses() {
 
 	//block and unblock the button, so the only button the user can chose is the button to change the page
 	$("#frontpage-course-list").find("#currentCourses").removeAttr("disabled");
+	$("#frontpage-course-list").find("#targilimCourses").removeAttr("disabled");
+
 	$("#frontpage-course-list").find("#allCourses").attr("disabled",true);
 	$(".coursebox").show(); //show all courses
 }
@@ -91,6 +121,8 @@ function openMyCourses() {
 
 	//block and unblock the button, so the only button the user can chose is the button to change the page
 	$("#frontpage-course-list").find("#allCourses").removeAttr("disabled");
+	$("#frontpage-course-list").find("#targilimCourses").removeAttr("disabled");
+
 	$("#frontpage-course-list").find("#currentCourses").attr("disabled",true);
 
 	$(".coursebox").hide();
@@ -99,6 +131,24 @@ function openMyCourses() {
 		if(coursesList[i])
 			var testDate = "";
 			$("[data-courseid="+coursesList[i]+"]").show();
+	}
+}
+
+
+//open the page only with the courses the user chose to show
+function openTargilimCourses() {
+	//block and unblock the button, so the only button the user can chose is the button to change the page
+	$("#frontpage-course-list").find("#allCourses").removeAttr("disabled");
+	$("#frontpage-course-list").find("#currentCourses").removeAttr("disabled");
+
+	$("#frontpage-course-list").find("#targilimCourses").attr("disabled",true);
+
+	$(".coursebox").hide();
+	//remove all the courses the user chose (the options to be hide are save in the local storage)
+	for (var i = 0; i < coursesList2.length; i++) {
+		if(coursesList2[i])
+			var testDate = "";
+			$("[data-courseid="+coursesList2[i]+"]").show();
 	}
 }
 
