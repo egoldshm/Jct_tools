@@ -29,7 +29,7 @@ function hideCourses(data, data2, hiddeModdelHelp){
 	console.log(coursesList2);
 
 
-	addButtons(hiddeModdelHelp);
+	addButtons(hiddeModdelHelp, coursesList.length > 0, coursesList2.length > 0);
 
 	//check if open the page "current" or "all courses"
 	// if the user does not have any course that he wants to hide,
@@ -40,6 +40,7 @@ function hideCourses(data, data2, hiddeModdelHelp){
 		openAllCourses();
 	else
 		openMyCourses();
+
 
 	var hash = location.hash;
 	if(hash == "#all")
@@ -54,6 +55,7 @@ function hideCourses(data, data2, hiddeModdelHelp){
 	{
 		openTargilimCourses();
 	}
+	
 	//when the button is click , open the page "all courses"
 	$("#allCourses").click(function() {
 		openAllCourses();
@@ -74,10 +76,20 @@ function hideCourses(data, data2, hiddeModdelHelp){
 
 
 //add the two buttons in the page, that will let to transist between the page with all selected courses, and the page with the option to hide/unhide courses
-function addButtons(hiddeModdelHelp) {
+function addButtons(hiddeModdelHelp, has_my_course, has_targilim_courses) {
 
+	var buttons = '<div>'
+	if(has_my_course)
+		buttons += '<button style="width:32%;height:50px;font-family:Heebo" id="currentCourses" disabled>קורסים שלי</button>'
+
+	if(has_targilim_courses)
+		buttons += '<button id="targilimCourses" style="width:32%;height:50px;font-family:Heebo" >בדיקת תרגילים</button>'
 	
-	var buttons = '<div><button style="width:49%;height:50px" id="currentCourses" disabled>קורסים שלי</button><button id="allCourses" style="width:49%;height:50px" >כל הקורסים</button><button id="targilimCourses" style="width:49%;height:50px" >בדיקת תרגילים</button></div>';
+	buttons += '<button id="allCourses" style="width:32%;height:50px;font-family:Heebo" >כל הקורסים</button>'
+	
+	
+	buttons += '</div>';
+
 	//remove the title "My Courses" and add a custom one
 	$("#frontpage-course-list").children("h2").hide();
 	$("#frontpage-course-list").prepend(buttons);

@@ -27,7 +27,7 @@
    "content_scripts": 
    [
       {
-      "js": [ "js/lib/jquery.min.js", "js/hide-courses.js" ,"js/loginJCT.js","js/dataAccess.js","js/lib/notify.min.js","js/lib/ouical.min.js" ],
+      "js": [ "js/lib/jquery.min.js", "js/hide-courses.js" ,"js/loginJCT.js","js/dataAccess.js","js/lib/notify.min.js","js/lib/ouical.min.js" ,"js/moodle.js","js/mazak.js"],
       "matches":
        [ 
          "*://1.1.1.1/*",

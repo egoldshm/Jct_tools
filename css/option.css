@@ -1,5 +1,6 @@
 body
 {
+  font-family: Heebo;
   background:#0d3d3d ;
   margin:0 auto;
   width:1024px;
@@ -149,7 +150,6 @@ figure{
 #account input
 {
   height: 50px;
-  width: 250px;
   margin-bottom: 10px;
   font-size: 22px;
 

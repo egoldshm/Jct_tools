@@ -12,8 +12,15 @@
 	<script type="text/javascript" src="js/lib/notify.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/lib/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/option.css">
+	<script>
+		$(window).load(function() {
+  $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+});
+
+		</script>
 </head>
 <body>
+	
 	<div style="height: 30px;background: #f7ecb5;font-size: 18px;color: #1b6d85;text-align: center;overflow: hidden" id="my-extension-alert">
 		<p style="float: left;margin-left: 10px;cursor: pointer" id="close-my-extension-alert">X</p>
 		<p>לידיעתכם! תוסף זה אינו שייך למרכז האקדמי לב בשום צורה. לכל דיווח אנא שלחו אמייל לכתובת abenatha@jct.ac.il</p>
@@ -63,8 +70,6 @@
 						</span>
 						<p class="helper">התחבר אוטומטית ב:</p>
 						<span class="activeWeb">
-							<input type="checkbox" id="wf"/>
-							<span class="checkboxtext">וויי - פיי</span>
 							<input type="checkbox" id="mo"/>
 							<span class="checkboxtext">מודל</span>
 						<!--<input type="checkbox" id="re"/>
@@ -352,7 +357,8 @@
                     <summary>קרדיט</summary>
                     <ul>
                         <li>ליוסף כשר על פיתוח האפשרות להסתיר קורסים במודל.</li>
-                        <li>למתן פחימה על תמיכת התוסף.</li>
+						<li>למתן פחימה על תמיכת התוסף.</li>
+						<li>לאיתן גולדשמידט על ההרחבה לבודקי תרגילים.</li>
                     </ul>
                 </details>
 			</p>
