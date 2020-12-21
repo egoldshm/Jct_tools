@@ -450,16 +450,18 @@ function createEventNotification(eventId, change) {
  *
  **********************************************************************/
 function login(username, password, anonymous) {
-
-
     const promise = new Promise(function (resolve, reject) {
+        jQuery.get("https://moodle.jct.ac.il/login/index.php",function(html_from_moodle){
+        var html_el = new DOMParser().parseFromString(html_from_moodle, "text/xml");
+        var token = $(html_from_moodle).find("[name='logintoken']").value;
         var request = $.post("https://moodle.jct.ac.il/login/index.php",
-            {username: username, password: password});
+            {username: username, password: password, logintoken:token});
 
         request.done(function (data) {
             // In case the username/password are wrong the moodle return an error that is requiered to
             // logout before login a new user
-            if ($(data).find('#notice').length > 0) {
+
+            if ($(data).find('.loginerrormessage').length > 0) {
                 console.log("wrong password");
                 backgroundEvent({type: "login", operationCompleted: false, error: "שם המשתמש או הסיסמה שהזנת שגויים"});
                 reject();
@@ -475,6 +477,7 @@ function login(username, password, anonymous) {
             backgroundEvent({type: "login", operationCompleted: false, error: "אין חיבור למודל"});
             reject();
         });
+    });
     });
 
     return promise;
@@ -544,7 +547,6 @@ function updateData(asyncType) {
             url: "https://moodle.jct.ac.il",
             type: 'GET',
             async: asyncType,
-
         });
 
         request.done(function (data) {
@@ -560,10 +562,9 @@ function updateData(asyncType) {
                 reject();
                 return;
             }
-
             // Get htm with div
             var html = jQuery('<div>').html(data);
-            if (html.find(".courses").length == 0) {
+            if (html.find("#frontpage-course-list").length == 0) {
                 reject();
                 console.log("No courses found");
                 backgroundEvent({
@@ -574,10 +575,16 @@ function updateData(asyncType) {
                 });
                 return;
             }
+
             // Get courses list
-            var courses = html.find(".courses");
+            var courses = html.find("#frontpage-course-list");
             //  wrapAllAttributes(courses);
+            backgroundEvent({type: "updateData", operationCompleted: false, error: "1111"});
             var coursesObject = getAllCourses(courses);
+            backgroundEvent({type: "updateData", operationCompleted: false, error: "121"});
+            var data = {courses: coursesObject.data}
+            DataAccess.setData(data)
+
             getAllHomeWorksFromCalendar().then(function (homeworkObject) {
 
                 checkChanges(homeworkObject).then(function () {
@@ -633,7 +640,7 @@ function getAllCourses(html) {
     var data = {};
     var index = [];
     var i = 0;
-    $(html).children().each(function () {
+    $(html).children()[1].children.each(function () {
         // Find the url of the course (where is contain all data)
         var courseLink = $(this).find('a');
         // Find the course id
@@ -944,7 +951,7 @@ function loginAndUpdate(data) {
             console.log("Anonymous - updating database");
             return updateData();
         }
-
+        console.log("login")
         login(data.username, window.atob(data.password))
             .then(function () {
                 console.log("updating database");

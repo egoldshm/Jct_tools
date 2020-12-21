@@ -33,12 +33,14 @@ function moodle(password, data) {
             addTestDate(data);
         return;
     }
-
-    if (($("#login_username").length != 0 && $("#login_password").length != 0) && data.anonymous != true) {
+    if(location.pathname == "/" && !$("#frontpage-course-list").length)
+        window.location.replace("https://moodle.jct.ac.il/login/index.php")
+    
+    if (($("#username").length != 0 && $("#password").length != 0) && data.anonymous != true) {
         if (data["mo"] && data.enable) {
-            $("#login_username").val(data.username);
-            $("#login_password").val(password);
-            $("#login input[value='התחברות'][type='submit']").click();
+            $("#username").val(data.username);
+            $("#password").val(password);
+            $("#loginbtn").click();
         }
     }
     else {
